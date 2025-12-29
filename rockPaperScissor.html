@@ -3,14 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <title>Rock Paper Scissors</title>
+    <style>
+      body {
+        background-color: rgb(25, 25, 25);
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .title {
+        font-size: 40px;
+        font-weight: bold;
+      }
+      .playImg {
+        height: 60px;
+      }
+      .playBtn {
+        background-color: transparent;
+        border: 3px solid white;
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      .result {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 50px;
+      }
+    </style>
   </head>
   <body>
-    <p>Rock Paper Scissors</p>
+    <p class="title">Rock Paper Scissors</p>
 
-    <button onclick="determineResult('rock')">Rock</button>
-    <button onclick="determineResult('paper')">Paper</button>
-    <button onclick="determineResult('scissors')">Scissor</button>
-    <button onclick="resetScore()">Reset Score</button>
+    <button class="playBtn" onclick="determineResult('rock')">
+      <img class="playImg" src="./assets/rock-emoji.png" alt="" />
+    </button>
+    <button class="playBtn" onclick="determineResult('paper')">
+      <img class="playImg" src="./assets/paper-emoji.png" alt="" />
+    </button>
+    <button class="playBtn" onclick="determineResult('scissors')">
+      <img class="playImg" src="./assets/scissors-emoji.png" alt="" />
+    </button>
+    <p class="disResult result">You Win</p>
+    <p class="disMove"></p>
+    <p style="margin-top: 30px" class="disScore"></p>
+    <button
+      style="padding: 10px; color: black; background-color: white"
+      onclick="resetScore()"
+    >
+      Reset Score
+    </button>
 
     <script>
       let score = JSON.parse(localStorage.getItem("score")) || {
@@ -26,14 +68,14 @@
           if (computerMove === "rock") result = "You Lose";
           else if (computerMove === "paper") result = "You Win";
           else {
-            result = "tie";
+            result = "Tie";
           }
         } else if (playerMove === "paper") {
           if (computerMove === "rock") result = "You Win";
-          else if (computerMove === "paper") result = "tie";
+          else if (computerMove === "paper") result = "Tie";
           else result = "You Lose";
         } else if (playerMove === "rock") {
-          if (computerMove === "rock") result = "tie";
+          if (computerMove === "rock") result = "Tie";
           else if (computerMove === "paper") result = "You Lose";
           else result = "You Win";
         }
@@ -41,14 +83,16 @@
           score.wins += 1;
         } else if (result == "You Lose") {
           score.loss += 1;
-        } else if (result === "tie") {
+        } else if (result === "Tie") {
           score.tie += 1;
         }
+        document.querySelector(".disResult").innerHTML = result;
+        document.querySelector(
+          ".disMove"
+        ).innerHTML = `You <img class="playImg" src="./assets/${playerMove}-emoji.png" />
+      <img class="playImg" src="./assets/${computerMove}-emoji.png" alt="" />Computer`;
+        showScore();
 
-        alert(
-          `You choose ${playerMove}, computer chose ${computerMove}. ${result}
-wins:${score.wins} Losses:${score.loss} Tie:${score.tie}`
-        );
         localStorage.setItem("score", JSON.stringify(score));
       }
 
@@ -64,6 +108,12 @@ wins:${score.wins} Losses:${score.loss} Tie:${score.tie}`
         score.loss = 0;
         score.tie = 0;
         localStorage.setItem("score", JSON.stringify(score));
+        showScore();
+      }
+      function showScore() {
+        document.querySelector(
+          ".disScore"
+        ).innerHTML = `wins:${score.wins} Losses:${score.loss} Tie:${score.tie}`;
       }
     </script>
   </body>
