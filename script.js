@@ -72,3 +72,22 @@ function autoPly() {
     isAutoPlaying = false;
   }
 }
+
+document.querySelector(".rockBtnEvent").addEventListener("click", () => {
+  determineResult("rock");
+});
+document.querySelector(".paperBtnEvent").addEventListener("click", () => {
+  determineResult("paper");
+});
+document.querySelector(".scissorsBtnEvent").addEventListener("click", () => {
+  determineResult("scissors");
+});
+document.body.addEventListener("keydown", (event) => {
+  if (event.key === "r" ) {
+    determineResult("rock");
+  } else if (event.key === "p") {
+    determineResult("paper");
+  } else if (event.key === "s") {
+    determineResult("scissors");
+  }
+});
